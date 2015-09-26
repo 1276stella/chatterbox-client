@@ -106,12 +106,6 @@ describe('chatterbox', function() {
 
         app.init();
 
-
-$('#main').click( function (){
-  app.addFriend();
-  console.log(1);
-});
-
         $('#main').find('.username').trigger('click');
         expect(app.addFriend.called).to.be.true;
 

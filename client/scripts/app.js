@@ -1,7 +1,26 @@
 // YOUR CODE HERE:
-var app = {};
+var app = {
+ server: "https://api.parse.com/1/classes/chatterbox"
+};
 
-app.init = function() {};
+app.init = function() {
+
+  $(document).ready(function() {
+
+    $('#main').find('.username').click( function(){
+      app.addFriend();
+    });
+
+    $('#send .submit').unbind('submit').submit( function() {
+       console.log(3);
+       app.handleSubmit();    
+    });  
+
+  });
+
+
+
+};
 
 app.send = function(message) {
 
@@ -23,11 +42,19 @@ app.send = function(message) {
 };
 
 app.fetch = function() {
+  // var that = this;
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
-    //url: 'https://api.parse.com/1/classes/chatterbox',
+    url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'GET',
     contentType: 'application/json',
+    success: function (data) {
+      console.log('data:', data);
+    },
+    error: function (data) {
+      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+      console.error("data", data);
+    }    
   });
 };
 
@@ -36,18 +63,18 @@ app.clearMessages = function() {
 };
 
 app.addMessage = function(message) {
-  $('#chats').html('<div class = username>' + message.username + ':' + message.text + '</div>');  
+  $('#chats').append('<div class = username>' + message.username + ': ' + message.text + '</div>');  
 };
 
 app.addRoom = function(roomname) {
-  $('#roomSelect').html('<option value = ' + roomname + '</option>');
+  $('#roomSelect').append('<option value = ' + roomname + '</option>');
 };
 
-app.addFriend = function() {};
 
-$(document).ready(function() {
-  $('#main').find('.username').click( function (){
-    app.addFriend();
-  });
-});
+
+app.addFriend = function() {};
+app.handleSubmit = function() {};
+
+
+  
 
