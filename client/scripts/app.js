@@ -6,16 +6,29 @@ var app = {
 app.init = function() {
 
   $(document).ready(function() {
-
     $('#main').find('.username').click( function(){
       app.addFriend();
     });
 
-    $('#send').unbind('submit').submit( function() {
-      alert(message.in);
+    // $('#send').unbind('submit').submit( function() {
+    $('#send .submit').click( function(event) {      
+      // app.handleSubmit();
+      console.log('event',event);
+      event.preventDefault();
 
-      app.handleSubmit();    
-    });  
+      var messageObj = {
+          username: 'Jia&Faisal',
+          text: $('#message').val()
+          // text: "Pure text"
+      };
+      // alert(messageObj.text);  
+      app.send(messageObj, app.fetch);
+      app.clearMessages();
+      // alert('after');         
+    }); 
+    app.fetch();          
+    // $('#send .submit').click(app.send);
+
 
   });
 
@@ -25,8 +38,7 @@ app.init = function() {
 
 };
 
-app.send = function(message) {
-
+app.send = function(message, cb) {
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
     url: 'https://api.parse.com/1/classes/chatterbox',
@@ -35,18 +47,17 @@ app.send = function(message) {
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
+      cb();
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to send message');
     }
   });
-
 };
 
 app.fetch = function() {
 
-  // var that = this;
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
     url: 'https://api.parse.com/1/classes/chatterbox',
@@ -56,12 +67,13 @@ app.fetch = function() {
       console.log('data:', data);
       for(var i = 0; i < data.results.length; i++) {
         app.addMessage(data.results[i]);
-        console.log(data.results[i]);
+        // console.log(data.results[i]);
       }
+      console.log('chatterbox: Message received');
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-      console.error("data", data);
+      console.error('chatterbox: Failed to receive message');     
     }    
   });
 };
@@ -93,10 +105,22 @@ app.addRoom = function(roomname) {
 
 
 app.addFriend = function() {};
-app.handleSubmit = function() {
-};
+// app.handleSubmit = function() {
+//   var messageObj = {
+//     username: 'Jia&Faisal <3',
+//     text: $('#message').val()
+//   };
+//   alert(messageObj.text);  
+//   app.send(messageObj);
+//   alert('after');
+//   app.fetch();
+// };
 
-app.init();
 
+
+
+// $(document).ready(function() {
+  app.init();
+// });
   
 
