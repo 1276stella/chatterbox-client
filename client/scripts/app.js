@@ -50,6 +50,9 @@ app.fetch = function() {
     contentType: 'application/json',
     success: function (data) {
       console.log('data:', data);
+      for(var i = 0; i < data.results.length; i++) {
+        app.addMessage(data.results[i]);
+      }
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
