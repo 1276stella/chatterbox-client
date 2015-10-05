@@ -69,6 +69,14 @@ form input[type=text] {
     font-weight: 800;
 }
 
+.chat span {
+    font-weight: 400;
+}
+
+.chat .friend span {
+    color: red;
+}
+
 .chat:hover {
     background-color: #ddd;
 }
